@@ -1,9 +1,66 @@
+<!DOCTYPE html>
 <html>
-<head>
-</head>
-<body>
-  <h1>hello world</h1>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>학교 급식 정보</title>
+    <style>
+      body {
+        background-image: url("https://example.com/background-image.jpg");
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        border-top: 40px solid black;
+        border-bottom: 40px solid black;
+        padding: 200px;
+        background-color: rgb(252, 252, 252);
+        border-radius: 10px;
+      }
+      #mealInfo {
+        resize: none;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      function loadMealInfo() {
+        const schoolCode = "7530626"; // 학교 코드
+        const date = $("#date").val().replace(/-/g, ""); // 날짜
+        const mealType = "2"; // 급식 종류 (중식)
+
+        const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?ATPT_OFCDC_SC_CODE=J10&SD_SCHUL_CODE=${schoolCode}&MLSV_YMD=${date}&MMEAL_SC_CODE=${mealType}&Type=json`;
+
+        $.ajax({
+          url: url,
+          type: "GET",
+          dataType: "jsonp",
+          jsonp: "callback",
+          success: function (data) {
+            const menu = data.mealServiceDietInfo[1].row[0].DDISH_NM.replaceAll("<br/>", "\n");
+            $("#mealInfo").val(menu);
+          },
+          error: function (xhr, status, error) {
+            console.error(xhr);
+            console.error(status);
+            console.error(error);
+            alert("데이터를 불러오는 중 오류가 발생했습니다.");
+          },
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>학교 급식 정보</h1>
+      <label for="date">날짜:</label>
+      <input type="date" id="date" value="2023-05-03" /><br /><br />
+      <label for="mealType">급식 종류:</label>
+      <select id="mealType">
+        <option value="2">중식</option>
+      </select>
+      <br /><br />
+      <button type="button" onclick="loadMealInfo()">불러오기</button>
+      <br /><br />
+      <textarea id="mealInfo" rows="10" cols="50"></textarea>
+    </div>
+  </body>
 </html>
-  
- 
