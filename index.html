@@ -32,7 +32,7 @@
         if (dayOfWeek == 6 || dayOfWeek == 0) {
           $("#date").addClass("invalid-date");
           $("#mealInfo").val("");
-          alert("토요일과 일요일은 선택할 수 없습니다.");
+          alert("해당 날짜는 급식 정보가 존재하지 않습니다.");
           return;
         }
 
@@ -74,7 +74,7 @@
       <div id="logo"></div>
       <h1>충훈고 급식 정보</h1>
       <label for="date">날짜:</label>
-      <input type="date" id="date" min="2023-05-01" max="2023-05-31" value="2023-05-03" /><br /><br />
+      <input type="date" id="date" value="" /><br /><br />
       <label for="mealType">급식 종류:</label>
       <select id="mealType">
         <option value="2">중식</option>
