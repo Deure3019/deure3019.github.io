@@ -19,6 +19,9 @@
       #mealInfo {
         resize: none;
       }
+      .invalid-date {
+        border: 2px solid red;
+      }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -35,12 +38,12 @@
           dataType: "jsonp",
           jsonp: "callback",
           success: function (data) {
-            const menu = data.mealServiceDietInfo[1].row[0].DDISH_NM.replaceAll("<br/>", "\n");
-            if (menu.trim().length > 0) {
-              $("#mealInfo").val(menu);
-            } else {
+            if (data.mealServiceDietInfo[1].row.length === 0) {
               alert("급식 정보가 존재하지 않습니다.");
+              return;
             }
+            const menu = data.mealServiceDietInfo[1].row[0].DDISH_NM.replaceAll("<br/>", "\n");
+            $("#mealInfo").val(menu);
           },
           error: function (xhr, status, error) {
             console.error(xhr);
@@ -50,6 +53,29 @@
           },
         });
       }
+
+      $(document).ready(function () {
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString().split("T")[0];
+        const saturday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 6).toISOString().split("T")[0];
+        const sunday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay()).toISOString().split("T")[0];
+
+        $("#date").attr("min", sunday);
+        $("#date").attr("max", saturday);
+
+        $("#date").on("change", function () {
+          const selectedDate = new Date($(this).val());
+          if (selectedDate.getDay() === 0) {
+            $(this).addClass("invalid-date");
+            alert("일요일은 선택할 수 없습니다.");
+          } else if (selectedDate.getDay() === 6) {
+            $(this).addClass("invalid-date");
+            alert("토요일은 선택할 수 없습니다.");
+          } else {
+            $(this).removeClass("invalid-date");
+          }
+        });
+      });
     </script>
   </head>
   <body>
