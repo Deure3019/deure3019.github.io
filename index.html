@@ -20,12 +20,24 @@
         resize: none;
       }
       .invalid-date {
-        border: 2px solid red;
+        border-color: red;
       }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       function loadMealInfo() {
+        const selectedDate = new Date($("#date").val());
+        const dayOfWeek = selectedDate.getDay();
+
+        if (dayOfWeek == 6 || dayOfWeek == 0) {
+          $("#date").addClass("invalid-date");
+          $("#mealInfo").val("");
+          alert("토요일과 일요일은 선택할 수 없습니다.");
+          return;
+        }
+
+        $("#date").removeClass("invalid-date");
+
         const schoolCode = "7530626"; // 학교 코드
         const date = $("#date").val().replace(/-/g, ""); // 날짜
         const mealType = "2"; // 급식 종류 (중식)
@@ -38,10 +50,12 @@
           dataType: "jsonp",
           jsonp: "callback",
           success: function (data) {
-            if (data.mealServiceDietInfo[1].row.length === 0) {
-              alert("급식 정보가 존재하지 않습니다.");
+            if (!data.mealServiceDietInfo[1]) {
+              $("#mealInfo").val("");
+              alert("해당 날짜의 급식 정보가 존재하지 않습니다.");
               return;
             }
+
             const menu = data.mealServiceDietInfo[1].row[0].DDISH_NM.replaceAll("<br/>", "\n");
             $("#mealInfo").val(menu);
           },
@@ -53,29 +67,6 @@
           },
         });
       }
-
-      $(document).ready(function () {
-        const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString().split("T")[0];
-        const saturday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 6).toISOString().split("T")[0];
-        const sunday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay()).toISOString().split("T")[0];
-
-        $("#date").attr("min", sunday);
-        $("#date").attr("max", saturday);
-
-        $("#date").on("change", function () {
-          const selectedDate = new Date($(this).val());
-          if (selectedDate.getDay() === 0) {
-            $(this).addClass("invalid-date");
-            alert("일요일은 선택할 수 없습니다.");
-          } else if (selectedDate.getDay() === 6) {
-            $(this).addClass("invalid-date");
-            alert("토요일은 선택할 수 없습니다.");
-          } else {
-            $(this).removeClass("invalid-date");
-          }
-        });
-      });
     </script>
   </head>
   <body>
@@ -83,7 +74,7 @@
       <div id="logo"></div>
       <h1>충훈고 급식 정보</h1>
       <label for="date">날짜:</label>
-      <input type="date" id="date" value="" /><br /><br />
+      <input type="date" id="date" min="2023-05-01" max="2023-05-31" value="2023-05-03" /><br /><br />
       <label for="mealType">급식 종류:</label>
       <select id="mealType">
         <option value="2">중식</option>
