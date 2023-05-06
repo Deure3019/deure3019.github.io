@@ -2,11 +2,17 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>이학주 개인 도메인</title>
+    <title>이학주 개인 </title>
     <style>
       /* 스타일링 */
       .page {
         display: none; /* 초기에는 페이지가 안 보이도록 함 */
+      }
+      body {
+        -webkit-user-select: none; /* 크롬, 사파리, 엣지 */
+        -moz-user-select: none; /* 파이어폭스 */
+        -ms-user-select: none; /* IE 10+ */
+        user-select: none; /* 일반적인 방법 */
       }
     </style>
   </head>
@@ -18,24 +24,107 @@
     <div id="page1" class="page">
         <head>
             <meta charset="UTF-8" />
+            <title>충훈고등학교 급식충</title>
             <style>
-              body {
-                background-image: url("https://example.com/background-image.jpg");
-              }
-              .container {
-                max-width: 800px;
-                margin: 0 auto;
-              }
-              #mealInfo {
-                resize: none;
-              }
-            </style>
+                /* 전체 배경 이미지 설정 */
+                body {
+                  background-image: url("https://i.ibb.co/k9RJxbC/1.jpg");
+                  background-size: cover;
+                }
+              
+                /* 중앙에 정렬되는 컨테이너 스타일 */
+                .container {
+                  max-width: 800px;
+                  margin: 0 auto;
+                  padding: 130px 20px;
+                  background-color: rgb(255, 255, 255);
+                  border-radius: 10px;
+                }
+              
+                /* 이미지 스타일 */
+                .meal-image {
+                  width: 100%;
+                  height: 300px;
+                  object-fit: cover;
+                  border-radius: 5px;
+                  margin-bottom: 20px;
+                }
+              
+                /* 텍스트 스타일 */
+                h1, h2, label {
+                  font-family: 'Noto Sans KR', sans-serif;
+                  color: #333;
+                }
+                
+                /* 날짜와 급식 종류 입력 폼 스타일 */
+                #date, #mealType {
+                  padding: 8px 12px;
+                  border-radius: 5px;
+                  border: 1px solid #ddd;
+                  margin-right: 10px;
+                  font-family: 'Noto Sans KR', sans-serif;
+                  font-size: 16px;
+                }
+              
+                /* 급식 정보 텍스트 에어리어 스타일 */
+                #mealInfo {
+                  resize: none;
+                  padding: 10px;
+                  font-family: 'Noto Sans KR', sans-serif;
+                  font-size: 16px;
+                  line-height: 1.5;
+                  border: 1px solid #ddd;
+                  border-radius: 5px;
+                  margin-top: 20px;
+                }
+              
+                /* 알레르기 유발 식품 정보 스타일 */
+                #allergy {
+                  font-size: 14px;
+                  font-weight: bold;
+                  margin-top: 20px;
+                }
+              
+                /* 불러오기 버튼 스타일 */
+                button {
+                  padding: 8px 16px;
+                  background-color: #333;
+                  color: #fff;
+                  border: none;
+                  border-radius: 5px;
+                  cursor: pointer;
+                  font-family: 'Noto Sans KR', sans-serif;
+                  font-size: 16px;
+                }
+              
+                /* 불러오기 버튼 마우스 호버 시 스타일 */
+                button:hover {
+                  background-color: #555;
+                }
+              
+                /* 불러오기 버튼 마우스 클릭 시 스타일 */
+                button:active {
+                  background-color: #222;
+                }
+              </style>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
+              $(function() {
+                // 토요일과 일요일 요일 선택 불가능하도록 처리
+                $('#date').on('change', function(e) {
+                  const selectedDate = new Date(e.target.value);
+                  if(selectedDate.getDay() === 0 || selectedDate.getDay() === 6) {
+                    alert("토요일과 일요일은 선택할 수 없습니다.");
+                    $(this).val(""); // 선택된 날짜 초기화
+                  }
+                });
+              });
+        
               function loadMealInfo() {
+                const selectedDate = new Date($("#date").val());
                 const schoolCode = "7530626"; // 학교 코드
                 const date = $("#date").val().replace(/-/g, ""); // 날짜
-                const mealType = "2"; // 급식 종류(점심)
+                const mealType = "2"; // 급식 종류 (점심)
         
                 const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?ATPT_OFCDC_SC_CODE=J10&SD_SCHUL_CODE=${schoolCode}&MLSV_YMD=${date}&MMEAL_SC_CODE=${mealType}&Type=json`;
         
@@ -61,10 +150,10 @@
           <body>
             <div class="container">
               <div id="logo"></div>
-              <a href="https://imgbb.com/"><img src="https://i.ibb.co/hyNvnWs/Kakao-Talk-20230504-025748533.jpg" style="float: right" height="300" alt="image" border="0"></a>
+              <a href="https://imgbb.com/"><img src="https://i.ibb.co/hyNvnWs/Kakao-Talk-20230504-025748533.jpg" style="float: right" height="320" alt="image" border="0"></a>
               <h1>충훈고 급식 정보</h1>
               <label for="date">날짜:</label>
-              <input type="date" id="date" value="2023-05-03" /><br /><br />
+              <input type="date" id="date" /><br /><br />
               <label for="mealType">급식 종류:</label>
               <select id="mealType">
                 <option value="2">점심</option>
@@ -72,7 +161,8 @@
               <br /><br />
               <button type="button" onclick="loadMealInfo()">불러오기</button>
               <br /><br />
-              <textarea id="mealInfo" rows="10" cols="50"></textarea>
+              <textarea id="mealInfo" rows="10" cols="50" onselectstart="return false" onmousedown="return false"></textarea>
+              <p>*알레르기 유발식품 : ①난류 ②우유 ③메밀 ④땅콩 ⑤대두 ⑥밀 ⑦고등어 ⑧게 ⑨새우 ⑩돼지고기 ⑪복숭아 ⑫토마토 ⑬아황산염</p>
             </div>
           </body>
     </div>
@@ -80,21 +170,59 @@
     <div id="page2" class="page">
         <head>
             <meta charset="UTF-8">
+            <title>충훈고 시간표</title>
             <style>
-                .timeclass {
+                .container2 {
                     max-width: 800px;
-                    margin: 0 auto;
+                      margin: 0 auto;
+                      padding: 130px 20px;
+                      background-color: rgb(255, 255, 255);
+                      border-radius: 10px;
+                }
+                body {
+                      background-image: url("https://i.ibb.co/k9RJxbC/1.jpg");
+                      background-size: cover;
                 }
                 table {
-                    border-collapse: collapse;
+                  border-collapse: collapse;
+                  width: 100%;
+                  margin: 20px 0;
                 }
-                td, th {
-                    border: 1px solid black;
-                    padding: 10px;
+                th, td {
+                  padding: 10px;
+                  text-align: center;
+                  border: 1px solid #ddd;
                 }
-            </style>
+                th {
+                  background-color: #f5f5f5;
+                }
+                td {
+                  background-color: #fff;
+                }
+                select {
+                  margin-right: 10px;
+                }
+                button {
+                  background-color: #4CAF50;
+                  color: white;
+                  border: none;
+                  padding: 10px 20px;
+                  text-align: center;
+                  display: inline-block;
+                  font-size: 16px;
+                  margin-top: 20px;
+                  cursor: pointer;
+                }
+                button:hover {
+                  background-color: #3e8e41;
+                }
+                p {
+                  text-align: center;
+                  margin-top: 50px;
+                }
+              </style>
           </head>
-          <div class="timeclass">
+          <div class="container2">
           <body>
             <h1>충훈고 시간표</h1>
             <form>
@@ -368,8 +496,8 @@
             return subjects[grade][classNum][day][period - 1];
             }
             </script>
-           </div>
-           <p>*시간표 오류 발견시 hj00879@gmail.com으로 문의</p>
+            </div>
+            <p>*시간표 오류 발견시 hj00879@gmail.com으로 문의</p>
         </div>
     </div>
     
