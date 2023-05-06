@@ -15,14 +15,29 @@
         -ms-user-select: none; /* IE 10+ */
         user-select: none; /* 일반적인 방법 */
       }
+      .header {
+        display: flex;
+        align-items: center;
+      }
+      .header h1 {
+        margin-right: 10px;
+      }
+      .header button {
+        margin-right: 10px; /* 수정된 부분 */
+      }
+      .header button:first-child { /* 수정된 부분 */
+        margin-right: 10; /* 가장 첫 번째 버튼은 오른쪽 여백을 제거 */
+        margin-left: auto; /* 제일 왼쪽에 배치 */
+      }
     </style>
   </head>
   <body>
-    <a href="https://imgbb.com/"><img src="https://i.ibb.co/GWgnK35/removebg-preview.png" alt="image" border="0" style="float: left;  margin-right: 5px; margin-bottom: 10px;  width:50px; height:50px;"></a>
-    <h1>충훈고등학교</h1>
-    <button onclick="showPage(1)">급식충</button> <!-- 1페이지 버튼 -->
-    <button onclick="showPage(2)">시간충</button> <!-- 2페이지 버튼 -->
-    
+    <div class="header">
+      <a href="https://imgbb.com/"><img src="https://i.ibb.co/GWgnK35/removebg-preview.png" alt="image" border="0" style="float: left;  margin-right: 5px; margin-bottom: 10px;  width:50px; height:50px;"></a>
+      <h1>충훈고등학교</h1>
+      <button onclick="showPage(1)">급식충</button> <!-- 1페이지 버튼 -->
+      <button onclick="showPage(2)">시간충</button> <!-- 2페이지 버튼 -->
+    </div>
     <div id="page1" class="page">
         <head>
             <meta charset="UTF-8" />
