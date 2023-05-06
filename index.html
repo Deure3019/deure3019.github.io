@@ -35,7 +35,7 @@
               function loadMealInfo() {
                 const schoolCode = "7530626"; // 학교 코드
                 const date = $("#date").val().replace(/-/g, ""); // 날짜
-                const mealType = "2"; // 급식 종류 (중식)
+                const mealType = "2"; // 급식 종류 (점심)
         
                 const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?ATPT_OFCDC_SC_CODE=J10&SD_SCHUL_CODE=${schoolCode}&MLSV_YMD=${date}&MMEAL_SC_CODE=${mealType}&Type=json`;
         
@@ -67,7 +67,7 @@
               <input type="date" id="date" value="2023-05-03" /><br /><br />
               <label for="mealType">급식 종류:</label>
               <select id="mealType">
-                <option value="2">중식</option>
+                <option valueconso점심</option>
               </select>
               <br /><br />
               <button type="button" onclick="loadMealInfo()">불러오기</button>
