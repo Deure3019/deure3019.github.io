@@ -130,6 +130,11 @@
                 const schoolCode = "7530626"; // 학교 코드
                 const date = $("#date").val().replace(/-/g, ""); // 날짜
                 const mealType = "2"; // 급식 종류 (점심)
+                
+                if (!date) {
+                  alert("날짜를 선택해주세요.");
+                  return;
+                }
         
                 const url = `https://open.neis.go.kr/hub/mealServiceDietInfo?ATPT_OFCDC_SC_CODE=J10&SD_SCHUL_CODE=${schoolCode}&MLSV_YMD=${date}&MMEAL_SC_CODE=${mealType}&Type=json`;
         
